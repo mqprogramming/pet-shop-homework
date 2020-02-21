@@ -23,5 +23,25 @@ def stock_count(pet_shop)
 end
 
 def pets_by_breed(pet_shop, specific_breed)
-  return pet_shop[:pets]
+
+  pet_array = []
+
+  pet_shop[:pets].each() do |pet|
+    pet_array.push(pet[:breed])
+  end
+
+  pet_array.find_all() do |breed_name|
+    breed_name == specific_breed
+  end
+
+end
+
+def find_pet_by_name(pet_shop, a_name)
+
+  found_name = pet_shop[:pets].find() do |pet|
+    pet[:name] == a_name
+  end
+
+  return found_name
+
 end
