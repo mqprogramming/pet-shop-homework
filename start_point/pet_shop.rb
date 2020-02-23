@@ -1,3 +1,52 @@
+# require('pry')
+# require('pry-byebug')
+
+# pet_shop = {
+#   pets: [
+#     {
+#       name: "Sir Percy",
+#       pet_type: :cat,
+#       breed: "British Shorthair",
+#       price: 500
+#     },
+#     {
+#       name: "King Bagdemagus",
+#       pet_type: :cat,
+#       breed: "British Shorthair",
+#       price: 500
+#     },
+#     {
+#       name: "Sir Lancelot",
+#       pet_type: :dog,
+#       breed: "Pomsky",
+#       price: 1000,
+#     },
+#     {
+#       name: "Arthur",
+#       pet_type: :dog,
+#       breed: "Husky",
+#       price: 900,
+#     },
+#     {
+#       name: "Tristan",
+#       pet_type: :dog,
+#       breed: "Basset Hound",
+#       price: 800,
+#     },
+#     {
+#       name: "Merlin",
+#       pet_type: :cat,
+#       breed: "Egyptian Mau",
+#       price: 1500,
+#     }
+#   ],
+#   admin: {
+#     total_cash: 1000,
+#     pets_sold: 0,
+#   },
+#   name: "Camelot of Pets"
+# }
+
 def pet_shop_name(pet_shop)
   return pet_shop[:name]
 end
@@ -88,18 +137,38 @@ def customer_can_afford_pet(customer, new_pet)
 
 end
 
-def sell_pet_to_customer(pet_shop, pet, customer)
+def give_pet_price(pet_shop, pet_name)
 
-  customer_can_afford_pet(customer, pet)
-  add_pet_to_customer(customer, pet)
-  remove_pet_by_name(pet_shop, pet)
-
-  amount = pet_shop[:pets].find() do |a_pet|
-    pet[:name] == a_pet
+  identified_pet = pet_shop[:pets].find() do |pet|
+    pet[:name] == pet_name
   end
 
+  if(identified_pet == nil)
+    return nil
+  else
+    return identified_pet[:price]
+  end
 
+end
 
-  remove_customer_cash(customer, )
+def sell_pet_to_customer(pet_shop, pet, customer)
+
+  if( pet != nil )
+
+    an_amount = give_pet_price(pet_shop, pet[:name])
+
+    if( customer_cash(customer) >= an_amount )
+
+      customer_can_afford_pet(customer, pet)
+      remove_customer_cash(customer, an_amount)
+      add_or_remove_cash(pet_shop, an_amount)
+
+      add_pet_to_customer(customer, pet)
+      remove_pet_by_name(pet_shop, pet[:name])
+      increase_pets_sold(pet_shop, 1)
+      
+    end
+
+  end
 
 end
